@@ -1,5 +1,7 @@
-package com.academy.lesson07;
+package com.academy.tests.lesson07;
 
+
+import com.academy.lesson07.Data;
 
 public class DateTests {
     public static void main(String[] args) {

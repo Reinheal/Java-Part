@@ -19,37 +19,13 @@ public enum  Week {
         return name;
     }
     public String afterTomorrow(){
-        if (this.name.equals(MONDAY.name))
-            return WEDNESDAY.name;
-        if (this.name.equals(TUESDAY.name))
-            return THURSDAY.name;
-        if (this.name.equals(WEDNESDAY.name))
-            return FRIDAY.name;
-        if (this.name.equals(THURSDAY.name))
-            return SATURDAY.name;
-        if (this.name.equals(FRIDAY.name))
-            return SUNDAY.name;
-        if (this.name.equals(SATURDAY.name))
-            return MONDAY.name;
-        if (this.name.equals(SUNDAY.name))
-            return TUESDAY.name;
-        return "Error";
+        Week we1 = values()[(ordinal() + 2) % values().length];
+        System.out.println("After Tomorrow " + we1.getName());
+        return toString();
     }
     public String beforeYesterday(){
-        if (this.name.equals(MONDAY.name))
-            return SATURDAY.name;
-        if (this.name.equals(TUESDAY.name))
-            return SUNDAY.name;
-        if (this.name.equals(WEDNESDAY.name))
-            return MONDAY.name;
-        if (this.name.equals(THURSDAY.name))
-            return TUESDAY.name;
-        if (this.name.equals(FRIDAY.name))
-            return WEDNESDAY.name;
-        if (this.name.equals(SATURDAY.name))
-            return THURSDAY.name;
-        if (this.name.equals(SUNDAY.name))
-            return FRIDAY.name;
-        return "Error";
+        Week we2 = values()[(ordinal()+values().length - 2) % values().length];
+        System.out.println("Before Yesterday " + we2.getName());
+        return toString();
     }
 }

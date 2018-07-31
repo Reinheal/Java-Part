@@ -1,4 +1,4 @@
-package com.academy.lesson06.test;
+package com.academy.tests.lesson06;
 
 import com.academy.lesson06.task3.Currency;
 
