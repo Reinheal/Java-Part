@@ -56,15 +56,15 @@ public enum Month {
         return ukrName;
     }
 
-   public String getNextMonth() {
+   public Month getNextMonth() {
         Month mon = values()[(ordinal() + 1) % values().length];
        System.out.println("Next Mouth "+ mon);
-       return toString();
+       return mon;
    }
-    public String getPrevMonth() {
+    public Month getPrevMonth() {
         Month mon1 = values()[(ordinal()+values().length - 1) % values().length];
         System.out.println("Previous Month " + mon1);
-        return toString();
+        return mon1;
     }
 
     }
