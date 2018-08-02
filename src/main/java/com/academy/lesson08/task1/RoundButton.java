@@ -6,4 +6,9 @@ public class RoundButton extends Button {
     public void draw(){
         System.out.println("RoundButton");
     }
+
+    @Override
+    public void draw3d() {
+        super.draw3d();
+    }
 }

@@ -1,7 +1,7 @@
 package com.academy.lesson08.task1;
 
 import com.academy.lesson08.task1.*;
-
+// Добавлен lesson10
 public class Task1 {
     public static void main(String[] args) {
         Component[] components = new Component[12];
@@ -25,6 +25,11 @@ public class Task1 {
         for (int i = 0; i < components.length; i++) {
             if (components[i] instanceof Button)
                 (components[i]).draw();
+        }
+        System.out.println("***********************");
+        for (int i = 0;i <components.length;i++){
+            if (components[i]instanceof VisualComponent)
+                (components[i]).draw3d();
         }
     }
 }

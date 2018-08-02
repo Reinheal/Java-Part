@@ -7,4 +7,9 @@ public class Label extends Component {
     public void draw() {
         System.out.println("Label");
     }
+
+    @Override
+    public void draw3d() {
+        System.out.println("Label Draw3d");
+    }
 }

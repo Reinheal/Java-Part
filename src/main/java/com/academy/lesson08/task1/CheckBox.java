@@ -7,4 +7,8 @@ public void draw(){
     System.out.println("ChreckBox");
 }
 
+    @Override
+    public void draw3d() {
+
+    }
 }

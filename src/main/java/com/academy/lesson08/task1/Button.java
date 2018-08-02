@@ -6,4 +6,10 @@ public class Button extends Component {
     public void draw() {
         System.out.println("Button");
     }
+
+    @Override
+    public void draw3d() {
+        System.out.println("Draw3d");
+
+    }
 }
