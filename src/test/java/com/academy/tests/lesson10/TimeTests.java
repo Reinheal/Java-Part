@@ -6,10 +6,11 @@ import com.academy.lesson10.Task1.TimeFormat;
 import com.academy.lesson10.Task1.TimeImpl;
 import com.academy.lesson10.Task1.TimeImplSeconds;
 import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import static com.academy.lesson10.Task1.TimeFormat.HOUR_12;
 import static com.academy.lesson10.Task1.TimeFormat.HOUR_24;
-
+@Test
 public class TimeTests {
     public void testTime() {
         // data
