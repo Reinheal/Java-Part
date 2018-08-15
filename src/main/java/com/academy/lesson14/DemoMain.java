@@ -29,8 +29,17 @@ public class DemoMain {
             personList.sort(new CustomPersonSortByAge());
             System.out.println(personList);
 
+            personList.sort(Comparator.comparing(Person::getName));
+            for (Person p: personList){
+                if (p.getAge()> 20 && p.getAge() < 50){
+                    System.out.println(p);
+                }
+            }
+
+            }
+
         }
-    }
+
 
     private static void fillPersonsRandom(Person[] personArr) {
         String[] names = {"Peter", "Helen", "Andry", "Abdel", "Kate", "Veronica", "Leonid", "Alex", "Max"};
