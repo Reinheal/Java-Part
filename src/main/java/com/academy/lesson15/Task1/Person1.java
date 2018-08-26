@@ -59,15 +59,6 @@ public class Person1 implements Comparable<Person1> {
         this.phoneNumber = phoneNumber;
     }
 
-    public void getPhoneNumber(String[]number, String elementaryPhoneNumber, String phoneNumber) {
-        phoneNumber = elementaryPhoneNumber;
-        for (int i =0; i<8;i++){
-            int c = (int) (Math.random()* 9);
-            phoneNumber = phoneNumber + number[c];
-        }
-        phoneNumber = phoneNumber+"5";
-        this.phoneNumber = phoneNumber;
-    }
 
 
 
