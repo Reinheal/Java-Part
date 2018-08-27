@@ -23,7 +23,7 @@ public class IncorrectLoginTests {
     }
 
     @Test
-    public void testUntitledTestCase() throws Exception {
+    public void incorrectLoginData() throws Exception {
         driver.get("http://automationpractice.com/index.php");
         driver.findElement(By.linkText("Sign in")).click();
         driver.findElement(By.id("email")).click();
@@ -35,6 +35,64 @@ public class IncorrectLoginTests {
         driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Forgot your password?'])[1]/following::span[1]")).click();
         try {
             assertEquals(driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Authentication'])[2]/following::p[1]")).getText(), "There is 1 error");
+        } catch (Error e) {
+            verificationErrors.append(e.toString());
+        }
+    }
+    @Test
+    public void emptyPasswordField() throws Exception {
+        driver.get("http://automationpractice.com/index.php?controller=authentication&back=my-account");
+        driver.findElement(By.id("email")).click();
+        driver.findElement(By.id("email")).clear();
+        driver.findElement(By.id("email")).sendKeys("drdttd@jhas.ry");
+        driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Forgot your password?'])[1]/following::span[1]")).click();
+        try {
+            assertEquals(driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Authentication'])[2]/following::li[1]")).getText(), "Password is required.");
+        } catch (Error e) {
+            verificationErrors.append(e.toString());
+        }
+    }
+    @Test
+    public void incorrectPassword() throws Exception {
+        driver.get("http://automationpractice.com/index.php?controller=authentication");
+        driver.findElement(By.id("email")).click();
+        driver.findElement(By.id("email")).click();
+        driver.findElement(By.id("email")).clear();
+        driver.findElement(By.id("email")).sendKeys("dimabologov@gmail.com");
+        driver.findElement(By.id("passwd")).click();
+        driver.findElement(By.id("passwd")).clear();
+        driver.findElement(By.id("passwd")).sendKeys("qwerty");
+        driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Forgot your password?'])[1]/following::span[1]")).click();
+        try {
+            assertEquals(driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Authentication'])[2]/following::li[1]")).getText(), "Authentication failed.");
+        } catch (Error e) {
+            verificationErrors.append(e.toString());
+        }
+    }
+    @Test
+    public void incorrectEmail() throws Exception {
+        driver.get("http://automationpractice.com/index.php?controller=authentication");
+        driver.findElement(By.id("email")).click();
+        driver.findElement(By.id("email")).clear();
+        driver.findElement(By.id("email")).sendKeys("asdsdasda");
+        driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Forgot your password?'])[1]/following::span[1]")).click();
+        try {
+            assertEquals(driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Authentication'])[2]/following::p[1]")).getText(), "There is 1 error");
+        } catch (Error e) {
+            verificationErrors.append(e.toString());
+        }
+    }
+    @Test
+    public void emptyAllFields() throws Exception {
+        driver.get("http://automationpractice.com/index.php?controller=authentication");
+        driver.findElement(By.id("email")).clear();
+        driver.findElement(By.id("email")).sendKeys("");
+        driver.findElement(By.id("passwd")).click();
+        driver.findElement(By.id("passwd")).clear();
+        driver.findElement(By.id("passwd")).sendKeys("");
+        driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Forgot your password?'])[1]/following::span[1]")).click();
+        try {
+            assertEquals(driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Authentication'])[2]/following::li[1]")).getText(), "An email address required.");
         } catch (Error e) {
             verificationErrors.append(e.toString());
         }
