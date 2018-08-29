@@ -77,7 +77,7 @@ public class SortSearchInspect {
 
         // можно делать проверки
         try {
-            assertEquals(driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Authentication'])[2]/following::p[1]")).getText(), "There is 1 error");
+            assertEquals(driver.findElement(By.xpath("//div[@class='product-count']")).getText(), "Showing 1 - 5 of 5 items");
         } catch (Error e) {
             verificationErrors.append(e.toString());
         }
