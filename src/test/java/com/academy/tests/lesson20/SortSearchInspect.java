@@ -24,11 +24,10 @@ public class SortSearchInspect {
     private WebDriver driver;
   //  private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
-    PropertyManager propertyManager = PropertyManager.getInstance();
 
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
-        System.setProperty("webdriver.chrome.driver", propertyManager.getProperty("chrome.driver"));
+        System.setProperty("webdriver.chrome.driver", PropertyManager.getProperty("chrome.driver"));
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
     }

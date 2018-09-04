@@ -1,90 +1,89 @@
 package com.academy.tests.lesson19;
 
-import java.util.regex.Pattern;
-import java.util.concurrent.TimeUnit;
+import java.io.IOException;
 
 import com.academy.lesson18.manager.PropertyManager;
-import org.openqa.selenium.chrome.ChromeDriver;
+import com.academy.tests.lesson19.page.AccountPage;
+import com.academy.tests.lesson19.page.HomePage;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.testng.annotations.*;
 import static org.testng.Assert.*;
-import org.openqa.selenium.*;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Select;
 
-public class LoginTests {
-    private WebDriver driver;
-  //  private String baseUrl;
-    private boolean acceptNextAlert = true;
-    private StringBuffer verificationErrors = new StringBuffer();
-    PropertyManager propertyManager = PropertyManager.getInstance();
+public class LoginTests extends BaseTest {
 
-    @BeforeClass(alwaysRun = true)
-    public void setUp() throws Exception {
-        System.setProperty("webdriver.chrome.driver", propertyManager.getProperty("chrome.driver"));
-        driver = new ChromeDriver();
-      //  baseUrl = "https://www.katalon.com/";
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+//  private PropertyManager propertyManager = PropertyManager.getInstance();
+
+    @Test(dataProvider = "authProvider", enabled = false)
+    public void testAuthCorrect(String email, String password) throws Exception {
+        System.out.println("Start LoginTest using PageObject pattern");
+        // 1 Способ - не круто
+//    HomePage homePage = new HomePage(driver);
+//    LoginPage loginPage = homePage.clickSingIn();
+//    loginPage.inputEmail(email);
+//    loginPage.inputPassword(password);
+//    AccountPage accountPage = loginPage.clickSingIn();
+
+        // 2 Способ - пока круто
+        AccountPage accountPage =
+                new HomePage(driver)
+                        .clickSingIn()
+                        .inputEmail(email)
+                        .inputPassword(password)
+                        .clickSingIn();
+
+        String userNameLinkText = accountPage.getUserNameLinkText();
+        assertEquals(userNameLinkText, "Dima Bologov");
+        accountPage.clickSignOut();
     }
 
-    @Test
-    public void testUntitledTestCase() throws Exception {
-        driver.get("http://automationpractice.com/index.php");
-        driver.findElement(By.linkText("Sign in")).click();
-        driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Already registered?'])[1]/following::div[2]")).click();
-        driver.findElement(By.id("email")).click();
-        driver.findElement(By.id("email")).clear();
-        driver.findElement(By.id("email")).sendKeys(propertyManager.getProperty("automation.username"));
-        driver.findElement(By.id("passwd")).click();
-        driver.findElement(By.id("passwd")).clear();
-        driver.findElement(By.id("passwd")).sendKeys(propertyManager.getProperty("automation.password"));
-        driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Forgot your password?'])[1]/following::span[1]")).click();
-        try {
-            assertEquals(driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Sign out'])[1]/preceding::span[1]")).getText(), "Dima Bologov");
-        } catch (Error e) {
-            verificationErrors.append(e.toString());
-        }
-        driver.findElement(By.linkText("Sign out")).click();
+   // @Test(dataProvider = "incorrectLoginProvider")
+    public void testAuthIncorrect(String email, String password, String errorMsg) {
+        System.out.println(String.format("email: %s, password:%s, errorMsg:%s", email, password, errorMsg));
     }
 
-    @AfterClass(alwaysRun = true)
-    public void tearDown() throws Exception {
-        driver.quit();
-        String verificationErrorString = verificationErrors.toString();
-        if (!"".equals(verificationErrorString)) {
-            fail(verificationErrorString);
-        }
+    @DataProvider(name="authProvider")
+    private Object[][] authProvider() {
+        return new Object[][]{
+                {PropertyManager.getProperty("automation.username"), PropertyManager.getProperty("automation.password")}
+        };
     }
 
-    private boolean isElementPresent(By by) {
-        try {
-            driver.findElement(by);
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
+    @DataProvider(name = "incorrectLoginProvider")
+    public Object[][] provideIncorrectAuthData() {
+        String authDataPath = PropertyManager.getProperty("auth.incorrect.data");
 
-    private boolean isAlertPresent() {
-        try {
-            driver.switchTo().alert();
-            return true;
-        } catch (NoAlertPresentException e) {
-            return false;
-        }
-    }
+        try ( XSSFWorkbook workbook = new XSSFWorkbook(authDataPath)) {
+            XSSFSheet sheet = workbook.getSheetAt(0);
 
-    private String closeAlertAndGetItsText() {
-        try {
-            Alert alert = driver.switchTo().alert();
-            String alertText = alert.getText();
-            if (acceptNextAlert) {
-                alert.accept();
-            } else {
-                alert.dismiss();
+            Object[][] data = new Object[sheet.getLastRowNum()][3];
+
+            for (int r = 1; r <= sheet.getLastRowNum(); r++) {
+                XSSFRow row = sheet.getRow(r);
+                String email = row.getCell(0).getStringCellValue();
+                String password = row.getCell(1).getStringCellValue();
+                String errMsg = row.getCell(2).getStringCellValue();
+
+                data[r-1][0] = email;
+                data[r-1][1] = password;
+                data[r-1][2] = errMsg;
             }
-            return alertText;
-        } finally {
-            acceptNextAlert = true;
+
+            return data;
+
+//    return new Object[][]{
+//            {"qwer@qwe.qwe","123qwe","Authentication failed."},
+//            {"qwer@qwe.qwe","Tnm601982","Authentication failed."},
+//            {"yavoric@rambler.ru","123qwe","Authentication failed."},
+//            {"","","An email address required."},
+//            {"yavoric@rambler.ru","","Password is required."},
+//            {"","Tnm601982","An email address required."},
+//            {"qwerty","","Invalid email address."}
+//    };
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }
