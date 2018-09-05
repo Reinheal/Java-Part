@@ -11,8 +11,17 @@ public class HomePage  extends BasePage {
     @FindBy(xpath = "//*[@id=\"block_top_menu\"]/ul/li[1]/a")
     private WebElement womenPageLink;
 
+    @FindBy(xpath = "//*[@id=\"block_top_menu\"]/ul/li[2]/a")
+    private WebElement dressesPageLink;
+
     public HomePage(WebDriver driver) {
         super(driver);
+    }
+
+
+    public DressesPage clickDressesPageLink(){
+        dressesPageLink.click();
+        return new DressesPage (driver);
     }
 
     public WomenPage clickWomenPageLink(){

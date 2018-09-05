@@ -22,7 +22,7 @@ public class BaseDao {
 
         try {
 //            Class.forName("com.mysql.cj.jdbc.Driver");
-            Class.forName(PropertyManager.getInstance().getProperty("jdbc.driver"));
+            Class.forName(PropertyManager.getProperty("jdbc.driver"));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -30,6 +30,6 @@ public class BaseDao {
 
     protected Connection getConnection() throws SQLException {
 //        return DriverManager.getConnection("jdbc:mysql://localhost:3306/test_sql?user=root&password=root&serverTimezone=UTC&useSSL=false");
-        return DriverManager.getConnection(PropertyManager.getInstance().getProperty("jdbc.connect"));
+        return DriverManager.getConnection(PropertyManager.getProperty("jdbc.connect"));
     }
 }

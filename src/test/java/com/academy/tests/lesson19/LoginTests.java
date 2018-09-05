@@ -15,7 +15,7 @@ public class LoginTests extends BaseTest {
 
 //  private PropertyManager propertyManager = PropertyManager.getInstance();
 
-    @Test(dataProvider = "authProvider", enabled = false)
+   @Test(dataProvider = "authProvider")
     public void testAuthCorrect(String email, String password) throws Exception {
         System.out.println("Start LoginTest using PageObject pattern");
         // 1 Способ - не круто

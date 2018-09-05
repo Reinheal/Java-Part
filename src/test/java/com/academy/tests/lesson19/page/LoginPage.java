@@ -14,8 +14,15 @@ public class LoginPage  extends BasePage {
     @FindBy(id = "SubmitLogin")
     private WebElement singInButton;
 
+    @FindBy(xpath = "//*[@id=\"center_column\"]/div/div[1]/ul/li[3]/a/span")
+    private WebElement myAddressesButton;
+
     public LoginPage(WebDriver driver) {
         super(driver);
+    }
+    public AddressPage clickMyAddressesButton(){
+        myAddressesButton.click();
+        return new AddressPage (driver);
     }
 
     public LoginPage inputEmail(String email) {
